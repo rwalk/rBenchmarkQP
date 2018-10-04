@@ -74,7 +74,7 @@ spy <- function(A){
 # Circus tent example
 #
 circusTrial <- function(nFolds) trial(2**3*nFolds, circusTentQP(2**3, nFolds))
-circusExperiment <- as.data.frame(t(sapply(1:3, circusTrial)))
+circusExperiment <- as.data.frame(t(sapply(1:10, circusTrial)))
 
 print(dput(circusExperiment))
 print(circusExperiment)
@@ -84,8 +84,8 @@ profilePlot(circusExperiment[,1:5], "/tmp/qp_tent.png")
 #
 # Random QP example
 #
-randomQPTrial <- function(N) trial(randomQP(N, 4))
-problemSize <- seq(from = 500, to = 2500, by = 1000)
+randomQPTrial <- function(N) trial(N, randomQP(N, 4))
+problemSize <- seq(from = 500, to = 7500, by = 1000)
 randomQPTrial <- as.data.frame(t(sapply(problemSize, randomQPTrial)))
 print(dput(randomQPTrial))
 print(randomQPTrial)

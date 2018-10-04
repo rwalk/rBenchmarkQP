@@ -83,7 +83,7 @@ ipoptrStage <- function(Dmat, dvec, Amat, bvec, ub=1e10){
     
     # wrapper function that will solves the ipoptr problem when called
     f <- function() {
-        # initialize with the global unconstrained minimum.
+        # initialize with the global unconstrained minimum; this is a reasonable guess and consistent with quadprog.
         x0 <- solve(Dmat, dvec)
         
         # call the solver
@@ -94,7 +94,7 @@ ipoptrStage <- function(Dmat, dvec, Amat, bvec, ub=1e10){
                       eval_g = eval_g, 
                       eval_jac_g = eval_jac_g,
                       eval_jac_g_structure = eval_jac_g_structure,
-                      constraint_lb = pmin(constraint_lb, x0)
+                      constraint_lb = pmin(constraint_lb, x0), # need to be sure that x0 >= contraint_lb
                       constraint_ub = constraint_ub,
                       eval_h = eval_h,
                       eval_h_structure = eval_h_structure)
