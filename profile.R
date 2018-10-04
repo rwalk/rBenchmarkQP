@@ -8,10 +8,10 @@ source("./qp_solvers.R")
 #######################################################
 trial <- function(N, qp){
     # stage the solvers
-    ipop_solve <- ipopStage(qpdata$Dmat, qpdata$dvec, qpdata$Amat, qpdata$bvec)
-    quadprog_solve <- quadprogStage(qpdata$Dmat, qpdata$dvec, qpdata$Amat, qpdata$bvec)
-    ipoptr_solve <- ipoptrStage(qpdata$Dmat, qpdata$dvec, qpdata$Amat, qpdata$bvec)
-    osqp_solve <- osqpStage(qpdata$Dmat, qpdata$dvec, qpdata$Amat, qpdata$bvec)
+    ipop_solve <- ipopStage(qp@Dmat, qp@dvec, qp@Amat, qp@bvec)
+    quadprog_solve <- quadprogStage(qp@Dmat, qp@dvec, qp@Amat, qp@bvec)
+    ipoptr_solve <- ipoptrStage(qp@Dmat, qp@dvec, qp@Amat, qp@bvec)
+    osqp_solve <- osqpStage(qp@Dmat, qp@dvec, qp@Amat, qp@bvec)
     
     # timers
     quadprog.time <- system.time(quadprog.solution <- quadprog_solve())[3]
