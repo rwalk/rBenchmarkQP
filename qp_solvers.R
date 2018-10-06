@@ -87,7 +87,6 @@ ipoptrStage <- function(Dmat, dvec, Amat, bvec, ub=1e10){
         # NOTE: This will only work if lb <= x0 <= ub.  If this is not the case, 
         # use x0 = lb can be used instead.
         x0 <- solve(Dmat, dvec)
-        if (!all(x0>=constraint_lb && x0<=constraint_ub)) x0 <- constraint_lb
         
         # call the solver
         res <- ipoptr(x0 = x0, 
