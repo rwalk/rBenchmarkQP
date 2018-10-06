@@ -83,14 +83,14 @@ ipoptrStage <- function(Dmat, dvec, Amat, bvec, ub=1e10){
     constraint_lb <- bvec
     constraint_ub <- rep( ub, n)
     lb <- rep(0, N)
+    opts <- list("file_print_level"=0, "print_level"=0) # ipoptr prints a huge amount of diagnostics by default
     
     # wrapper function that will solves the ipoptr problem when called
     f <- function() {
         # initialize with the global unconstrained minimum; this is a reasonable guess and consistent with quadprog.
-        # NOTE: This will only work if lb <= x0 <= ub.  If this is not the case, 
-        # use x0 = lb can be used instead.
+        # NOTE: This will only work if lb <= x0 <= ub, so we adjust components of x0 that are outside lb.
         x0 <- solve(Dmat, dvec)
-        if(!all(x0>=lb)) lb=x0
+        x0 <- pmax(x0, lb)
             
         # call the solver
         res <- ipoptr(x0 = x0, 
@@ -103,7 +103,8 @@ ipoptrStage <- function(Dmat, dvec, Amat, bvec, ub=1e10){
                       constraint_lb = constraint_lb,
                       constraint_ub = constraint_ub,
                       eval_h = eval_h,
-                      eval_h_structure = eval_h_structure)
+                      eval_h_structure = eval_h_structure,
+                      opts = opts)
         return(res)
     }
     return(f)
