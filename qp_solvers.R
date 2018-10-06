@@ -43,7 +43,10 @@ ipopStage <- function(Dmat, dvec, Amat, bvec){
     u <- matrix(ub, nrow=n, ncol=1)
     
     f <- function(){
-        sol <- ipop(cc, H, A, b, l, u, r, margin=1e-3)
+        # note, solver seems to be pretty sensitive to the margin size
+        # if you see errors about conditioning try tweaking the margin size
+        # up or down.
+        sol <- ipop(cc, H, A, b, l, u, r, margin=1e-4)
         return(sol)
     }
     return(f)
@@ -87,7 +90,8 @@ ipoptrStage <- function(Dmat, dvec, Amat, bvec, ub=1e10){
         # NOTE: This will only work if lb <= x0 <= ub.  If this is not the case, 
         # use x0 = lb can be used instead.
         x0 <- solve(Dmat, dvec)
-        
+        if(!all(x0>=lb)) lb=x0
+            
         # call the solver
         res <- ipoptr(x0 = x0, 
                       eval_f = eval_f,
