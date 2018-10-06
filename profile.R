@@ -53,7 +53,7 @@ profilePlot <- function(times, filename){
         ggtitle("Solve time vs problem size for random, dense QP")+
         geom_line(size=1.5) + 
         geom_point(size=5) + 
-        scale_colour_manual(values=c("red","blue","yellow", "magenta")) +
+        scale_colour_manual(values=c("red","blue","yellow", "green")) +
         theme(legend.position="bottom", legend.title=element_blank())
     ggsave(filename, dpi=320)
 }
@@ -73,7 +73,7 @@ spy <- function(A){
 #
 # Circus tent example
 #
-circusTrial <- function(nFolds) trial(2**3*nFolds, circusTentQP(2**3, nFolds))
+circusTrial <- function(nFolds) trial((2**3*nFolds)**2, circusTentQP(2**3, nFolds))
 circusExperiment <- as.data.frame(t(sapply(1:10, circusTrial)))
 
 print(dput(circusExperiment))
