@@ -83,7 +83,10 @@ ipoptrStage <- function(Dmat, dvec, Amat, bvec, ub=1e10){
     constraint_lb <- bvec
     constraint_ub <- rep( ub, n)
     lb <- rep(0, N)
-    opts <- list("file_print_level"=0, "print_level"=0) # ipoptr prints a huge amount of diagnostics by default
+    opts <- list("file_print_level"=0,
+                 "print_level"=0,
+                 "acceptable_tol"=1e-12,
+                 "tol"=1e-12)) # ipoptr prints a huge amount of diagnostics by default
     
     # wrapper function that will solves the ipoptr problem when called
     f <- function() {
