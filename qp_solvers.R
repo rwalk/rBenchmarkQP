@@ -84,7 +84,10 @@ ipoptrStage <- function(Dmat, dvec, Amat, bvec, ub=1e10){
     # wrapper function that will solves the ipoptr problem when called
     f <- function() {
         # initialize with the global unconstrained minimum; this is a reasonable guess and consistent with quadprog.
+        # NOTE: This will only work if lb <= x0 <= ub.  If this is not the case, 
+        # use x0 = lb can be used instead.
         x0 <- solve(Dmat, dvec)
+        if (!all(x0>=contraint_lb && x0<=contstraint_ub)) x0 <- constraint_lb
         
         # call the solver
         res <- ipoptr(x0 = x0, 
