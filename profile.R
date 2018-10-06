@@ -47,10 +47,10 @@ trial <- function(N, qp){
 #######################################################
 # Plotting
 #######################################################
-profilePlot <- function(times, filename){
+profilePlot <- function(times, filename, title){
     df <- melt(times, id = "problem.size", value.name = "time", variable.name="method")
     plt <- ggplot(df, aes(x=problem.size, y=time, color=method)) + 
-        ggtitle("Solve time vs problem size for random, dense QP")+
+        ggtitle(title)+
         geom_line(size=1.5) + 
         geom_point(size=5) + 
         scale_colour_manual(values=c("red","blue","yellow", "green")) +
@@ -79,7 +79,7 @@ circusExperiment <- as.data.frame(t(sapply(1:10, circusTrial)))
 print(dput(circusExperiment))
 print(circusExperiment)
 write.csv(circusExperiment, file = "/tmp/qp_tent.data.csv", row.names = FALSE)
-profilePlot(circusExperiment[,1:5], "/tmp/qp_tent.png")
+profilePlot(circusExperiment[,1:5], "/tmp/qp_tent.png", "Solve time vs problem size for circus tent problem")
 
 #
 # Random QP example
@@ -90,4 +90,4 @@ randomQPTrial <- as.data.frame(t(sapply(problemSize, randomQPTrial)))
 print(dput(randomQPTrial))
 print(randomQPTrial)
 write.csv(randomQPTrial, file = "/tmp/random_qp.data.csv", row.names = FALSE)
-profilePlot(randomQPTrial[,1:5], "/tmp/random_qp.png")
+profilePlot(randomQPTrial[,1:5], "/tmp/random_qp.png", "Solve time vs problem size for random dense QP")
